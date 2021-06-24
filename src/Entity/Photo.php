@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\PhotoRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PhotoRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass=PhotoRepository::class)
@@ -30,13 +31,17 @@ class Photo
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity=Trip::class, mappedBy="photo")
+     * @ORM\ManyToOne(targetEntity=Trip::class, inversedBy="photo")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $trips;
+    private $trip;
+
+   
 
     public function __construct()
     {
         $this->trips = new ArrayCollection();
+       
     }
 
     public function getId(): ?int
@@ -68,33 +73,17 @@ class Photo
         return $this;
     }
 
-    /**
-     * @return Collection|Trip[]
-     */
-    public function getTrips(): Collection
+    public function getTrip(): ?Trip
     {
-        return $this->trips;
+        return $this->trip;
     }
 
-    public function addTrip(Trip $trip): self
+    public function setTrip(?Trip $trip): self
     {
-        if (!$this->trips->contains($trip)) {
-            $this->trips[] = $trip;
-            $trip->setPhoto($this);
-        }
+        $this->trip = $trip;
 
         return $this;
     }
 
-    public function removeTrip(Trip $trip): self
-    {
-        if ($this->trips->removeElement($trip)) {
-            // set the owning side to null (unless already changed)
-            if ($trip->getPhoto() === $this) {
-                $trip->setPhoto(null);
-            }
-        }
-
-        return $this;
-    }
+   
 }

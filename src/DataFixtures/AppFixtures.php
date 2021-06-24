@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures;
 
-
+use App\Entity\Photo;
 use DateTime;
 use App\Entity\Trip;
 
@@ -37,6 +37,15 @@ class AppFixtures extends Fixture
           
         ];
 
+        $listTrip = [
+            [
+                'trip' => 'Voyage à tatooine',
+                'description' => 'besoin de vacances tranquille'
+            ]
+        ];
+
+        $listPhoto = ['tn_concert.jpeg','tn_concert.jpeg','tn_concert.jpeg','tn_concert.jpeg','tn_concert.jpeg'];
+
        
 
         foreach($listUser as $userListed)
@@ -51,10 +60,26 @@ class AppFixtures extends Fixture
             $allUser[] = $user;
 
         }
-
         $manager->flush();
-        
 
-     
+
+        foreach ($listTrip as $tripListed) {
+            $trip = new Trip;
+            $trip->setName($tripListed['trip']);
+            $trip->setDescription($tripListed['description']);
+            $trip->setUser($allUser[0]);
+            $manager->persist($trip);
+            $allTrip[] = $trip;
+        }
+        $manager->flush();
+
+        for ($i=0; $i < count($listPhoto) ; $i++) { 
+            $photo = new Photo;
+            $photo->setSource($listPhoto[$i]);
+            $photo->setTrip($allTrip[0]);
+            $manager->persist($photo);
+            $allTrip[] = $trip;
+        }
+        $manager->flush();
     }
 }

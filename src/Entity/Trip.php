@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TripRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -23,7 +25,7 @@ class Trip
     private $name;
 
     /**
-     * @ORM\Column(type="datetime_immutable")
+     * @ORM\Column(type="datetime")
      */
     private $createdAt;
 
@@ -39,10 +41,17 @@ class Trip
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Photo::class, inversedBy="trips")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToMany(targetEntity=Photo::class, mappedBy="trip", orphanRemoval=true)
      */
     private $photo;
+
+  
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime('now');
+        $this->photo = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -61,12 +70,12 @@ class Trip
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?\DateTime
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    public function setCreatedAt(\DateTime $createdAt): self
     {
         $this->createdAt = $createdAt;
 
@@ -97,15 +106,35 @@ class Trip
         return $this;
     }
 
-    public function getPhoto(): ?Photo
+    /**
+     * @return Collection|Photo[]
+     */
+    public function getPhoto(): Collection
     {
         return $this->photo;
     }
 
-    public function setPhoto(?Photo $photo): self
+    public function addPhoto(Photo $photo): self
     {
-        $this->photo = $photo;
+        if (!$this->photo->contains($photo)) {
+            $this->photo[] = $photo;
+            $photo->setTrip($this);
+        }
 
         return $this;
     }
+
+    public function removePhoto(Photo $photo): self
+    {
+        if ($this->photo->removeElement($photo)) {
+            // set the owning side to null (unless already changed)
+            if ($photo->getTrip() === $this) {
+                $photo->setTrip(null);
+            }
+        }
+
+        return $this;
+    }
+
+  
 }
