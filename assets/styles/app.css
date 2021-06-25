@@ -2,12 +2,21 @@ body {
     background-color: lightgray;
 }
 
+/* photo profile */
+.sizeProfile
+{
+    width: 4rem;
+    height: 3rem;
+}
+/* photo profile */
+
 /* trip card */
 .tripCard
 {
     width: 100%;
     height: 10rem;
 }
+/* trip card */
 
 /* photo show */
 .photoSize

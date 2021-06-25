@@ -1,29 +1,61 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-	{{ trip.name }}
-{% endblock %}
+{% block title %}Home{% endblock %}
+
 
 {% block body %}
 
 	<div class="container">
-		<div class="col-3">
-			<a href="{{ path('index') }}" class="btn btn-primary">Back</a>
+		<div class="col-12 d-flex flex-row justify-content-start p-3">
+			<p>
+				<img src="{{ asset("/img/profile/"~user.profile.source) }}" class="rounded-circle sizeProfile" alt="...">
+				Bienvenue
+				{{ user.name}}
+				{{ user.surname }}
+			</p>
 		</div>
 	</div>
 
 	<div class="container">
-		<div class="d-flex flex-row flex-wrap justify-content-around p-5">
-			{% for trips in trip.photo %}
-				<div class="col-3 mx-3">
-					<a href="{{ path('app_photo_show', {'id': trips.id}) }}">
-						<img src="{{ asset("/img/trip/"~trips.source) }}" class="photoSize" alt="...">
-					</a>
-					<p>
-						{{ trips.description }}</p>
-				</div>
-			{% endfor %}
+		<div class="col-4 p-3">
+			<h2>
+				Vos différent voyages
+			</h2>
+		</div>
+		<div class="col-3 ms-5">
+			<p>
+				<a href="{{ path('trip_new') }}">Nouveau</a>
+			</p>
 		</div>
 	</div>
+
+
+	<div class="container">
+		{% if user.trip is empty %}
+			<div class="col-12 d-flex justify-content-center">
+				<p>Créer un voyage</p>
+			</div>
+		{% else %}
+			<div class="d-flex flex-row flex-wrap justify-content-start">
+				{% for users in user.trip %}
+					<div class="card col-3 mx-3">
+						<a href="{{ path('app_trip', {'id': users.id }) }}">
+							{% if users.photo is empty %}
+								<a href="{{ path('trip_edit', {'id': users.id }) }}">Modifier</a>
+							{% else %}
+							<img src="{{ asset("/img/trip/"~users.photo[0].source) }}" class="tripCard" alt="...">
+							{% endif %}
+						</a>
+						<div class="card-body">
+							<h5 class="card-title">{{ users.name }}
+								le
+								{{ users.createdAt|date("d/m/Y", "Europe/Paris") }}</h5>
+							<p class="card-text">{{ users.description}}</p>
+						</div>
+					</div>
+				{% endfor %}
+			<div>
+		{% endif %}
+	<div>
 
 {% endblock %}
