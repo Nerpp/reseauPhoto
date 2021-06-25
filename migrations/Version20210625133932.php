@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20210624171654 extends AbstractMigration
+final class Version20210625133932 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,16 +20,16 @@ final class Version20210624171654 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE photo ADD trip_id INT NOT NULL');
-        $this->addSql('ALTER TABLE photo ADD CONSTRAINT FK_14B78418A5BC2E0E FOREIGN KEY (trip_id) REFERENCES trip (id)');
-        $this->addSql('CREATE INDEX IDX_14B78418A5BC2E0E ON photo (trip_id)');
+        $this->addSql('ALTER TABLE user DROP FOREIGN KEY FK_8D93D649CCFA12B8');
+        $this->addSql('DROP INDEX UNIQ_8D93D649CCFA12B8 ON user');
+        $this->addSql('ALTER TABLE user DROP profile_id');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE photo DROP FOREIGN KEY FK_14B78418A5BC2E0E');
-        $this->addSql('DROP INDEX IDX_14B78418A5BC2E0E ON photo');
-        $this->addSql('ALTER TABLE photo DROP trip_id');
+        $this->addSql('ALTER TABLE user ADD profile_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE user ADD CONSTRAINT FK_8D93D649CCFA12B8 FOREIGN KEY (profile_id) REFERENCES photo (id)');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649CCFA12B8 ON user (profile_id)');
     }
 }

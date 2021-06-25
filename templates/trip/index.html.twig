@@ -6,25 +6,24 @@
 
 {% block body %}
 
-<div class="container-fluid">
-<div class="col-3">
-<a href="{{ path('index') }}" class="btn btn-primary">Back</a>
-</div>
-</div>
+	<div class="container">
+		<div class="col-3">
+			<a href="{{ path('index') }}" class="btn btn-primary">Back</a>
+		</div>
+	</div>
 
 	<div class="container">
 		<div class="d-flex flex-row flex-wrap justify-content-around p-5">
 			{% for trips in trip.photo %}
-				{# <a href="{{ path('photo_show', {'id': trips.id}) }}"> #}
 				<div class="col-3 mx-3">
-					<img src="{{ asset("/img/trip/"~trips.source) }}" class="photoSize" alt="...">
-					<p> {{ trips.description }}</p>
+					<a href="{{ path('app_photo_show', {'id': trips.id}) }}">
+						<img src="{{ asset("/img/trip/"~trips.source) }}" class="photoSize" alt="...">
+					</a>
+					<p>
+						{{ trips.description }}</p>
 				</div>
-				{# </a> #}
-				
 			{% endfor %}
 		</div>
 	</div>
 
 {% endblock %}
-

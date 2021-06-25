@@ -57,6 +57,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $surname;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Profile::class, inversedBy="user", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $profile;
+
     public function __construct()
     {
         $this->trip = new ArrayCollection();
@@ -213,6 +219,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setSurname(string $surname): self
     {
         $this->surname = $surname;
+
+        return $this;
+    }
+
+    public function getProfile(): ?Profile
+    {
+        return $this->profile;
+    }
+
+    public function setProfile(Profile $profile): self
+    {
+        $this->profile = $profile;
 
         return $this;
     }

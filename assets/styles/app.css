@@ -16,3 +16,10 @@ body {
     height: 18rem;
 }
 /* photo show */
+
+/* particular photo */
+.particularPhoto
+{
+    width: 100%;
+    height: 100%;
+}

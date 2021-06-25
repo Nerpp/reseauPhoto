@@ -2,11 +2,12 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Photo;
 use DateTime;
 use App\Entity\Trip;
-
 use App\Entity\User;
+
+use App\Entity\Photo;
+use App\Entity\Profile;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -27,12 +28,14 @@ class AppFixtures extends Fixture
             [
                 'name' => 'Dark',
                 'surname' =>'Vador',
-                'email'    => 'darkvador@gmail.com'
+                'email'    => 'darkvador@gmail.com',
+                'profile' => 'vProfile.jpg'
             ],
             [
-                'name' => 'Des batignolles',
-                'surname' => 'Marie-thérése',
-                'email'    => 'batignolles@gmail.com'
+                'surname' => 'Des batignolles',
+                'name' => 'Marie-thérése',
+                'email'    => 'batignolles@gmail.com',
+                'profile' => 'mtherese.jpg'
             ],
           
         ];
@@ -106,12 +109,17 @@ class AppFixtures extends Fixture
 
         foreach($listUser as $userListed)
         {
+            $profile = new Profile;
+            $profile->setSource($userListed['profile']);
+            $manager->persist($profile);
+
             $user = new User;
             $user->setEmail($userListed['email']);
             $user->setName($userListed['name']);
             $user->setSurname($userListed['surname']);
             $user->setPassword($this->encoder->hashPassword($user,"123456"));
-            $user->setCreatedAt(new \DateTime('+3 days'));
+            $user->setCreatedAt(new \DateTime('now'));
+            $user->setProfile($profile);
             $manager->persist($user);
             $allUser[] = $user;
 
