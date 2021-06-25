@@ -2,26 +2,27 @@
 
 namespace App\Controller;
 
+use App\Entity\Trip;
+use App\Repository\PhotoRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class IndexController extends AbstractController
+class TripController extends AbstractController
 {
     /**
-     * @Route("/home", name="index")
+     * @Route("/trip/{id}", name="app_trip")
      */
-    public function index(): Response
+    public function index(Trip $trip): Response
     {
         if (!$this->getUser()) {
             return $this->redirectToRoute('app_login');
         }
 
-       
 
-        return $this->render('index/index.html.twig', [
-            'controller_name' => 'IndexController',
-            'user' => $this->getUser(),
+        return $this->render('trip/index.html.twig', [
+            'controller_name' => 'TripController',
+            'trip' => $trip,
             
         ]);
     }
