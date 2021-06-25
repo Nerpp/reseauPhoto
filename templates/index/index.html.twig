@@ -17,11 +17,11 @@
 	</div>
 
 	<div class="container">
-			{% if user.trip is empty %}
-				<div class="col-12 d-flex justify-content-center">
-					<p>Votre liste de voyage est vide</p>
-				</div>
-			{% else %}
+		{% if user.trip is empty %}
+			<div class="col-12 d-flex justify-content-center">
+				<p>Créer un voyage</p>
+			</div>
+		{% else %}
 			<div class="d-flex flex-row flex-wrap justify-content-start p-5">
 				{% for users in user.trip %}
 					<div class="card col-3 mx-3">
@@ -36,8 +36,8 @@
 						</div>
 					</div>
 				{% endfor %}
-			{% endif %}
-		<div>
+			<div>
+		{% endif %}
 	<div>
-{% endblock %}
 
+{% endblock %}
