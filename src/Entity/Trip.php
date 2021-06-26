@@ -2,10 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\TripRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+
+
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\TripRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+
 
 /**
  * @ORM\Entity(repositoryClass=TripRepository::class)
@@ -25,6 +28,7 @@ class Trip
     private $name;
 
     /**
+     * 
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
@@ -52,6 +56,8 @@ class Trip
         $this->createdAt = new \DateTime('now');
         $this->photo = new ArrayCollection();
     }
+
+    
 
     public function getId(): ?int
     {

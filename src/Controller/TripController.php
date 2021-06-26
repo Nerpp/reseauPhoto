@@ -34,26 +34,7 @@ class TripController extends AbstractController
         ]);
     }
 
-
-
-
-    /**
-     * @Route("/trip/{id}", name="app_trip")
-     */
-    public function showTrip(Trip $trip): Response
-    {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
-
-
-        return $this->render('trip/show.html.twig', [
-            'controller_name' => 'TripController',
-            'trip' => $trip,
-            
-        ]);
-    }
-
+    
     /**
      * @Route("/new", name="trip_new", methods={"GET","POST"})
      */
@@ -65,7 +46,6 @@ class TripController extends AbstractController
 
        $user = $this->getUser();
 
-        // dd($user);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -87,6 +67,10 @@ class TripController extends AbstractController
      */
     public function show(Trip $trip): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+
         return $this->render('trip/show.html.twig', [
             'trip' => $trip,
         ]);

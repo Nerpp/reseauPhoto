@@ -2,25 +2,86 @@
 
 namespace App\Controller;
 
+use App\Entity\Trip;
 use App\Entity\Photo;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Form\PhotoType;
+use App\Repository\PhotoRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+/**
+ * @Route("/photo")
+ */
 class PhotoController extends AbstractController
 {
+   
+
     /**
-     * @Route("/photo/{id}", name="app_photo_show")
+     * @Route("/new", name="photo_new", methods={"GET","POST"})
      */
-    public function index(Photo $photo): Response
+    public function new(Request $request): Response
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
+        $photo = new Photo();
+        $form = $this->createForm(PhotoType::class, $photo);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($photo);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('photo_index');
         }
 
-        return $this->render('photo/index.html.twig', [
-            'controller_name' => 'PhotoController',
-            'photos' => $photo
+        return $this->render('photo/new.html.twig', [
+            'photo' => $photo,
+            'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/{id}", name="photo_show", methods={"GET"})
+     */
+    public function show(Photo $photo): Response
+    {
+        return $this->render('photo/show.html.twig', [
+            'photo' => $photo,
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/edit", name="photo_edit", methods={"GET","POST"})
+     */
+    public function edit(Request $request, Photo $photo,PhotoRepository $photoRepository): Response
+    {
+        $form = $this->createForm(PhotoType::class, $photo);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('photo_show',['id' => $photo->getId()]);
+        }
+
+        return $this->render('photo/edit.html.twig', [
+            'photo' => $photo,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}", name="photo_delete", methods={"POST"})
+     */
+    public function delete(Request $request, Photo $photo): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$photo->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($photo);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('photo_index');
     }
 }

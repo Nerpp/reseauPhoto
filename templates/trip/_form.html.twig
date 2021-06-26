@@ -1,4 +1,29 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+
+<div class="col-6 pt-2">
+<label for="name">Nom du voyage</label>
+		{{ form_widget(form.name, {'attr':{'class':'form-control form-control-lg ms-5'}}) }}
+</div>
+
+<div class="d-flex flex-row">
+<div class="col-4 pt-2 ms-5">
+     <img src="{{ asset("/img/trip/"~trip.photo[0].source) }}" class="tripCard" alt="...">
+</div>
+<div class="col-2 d-flex justify-content-center align-items-center">
+<p>Changer</p>
+</div>
+</div>
+
+<div class="col-6 pt-2">
+        <label for="description">Description du voyage</label>
+		{{ form_widget(form.description, {'attr':{'class':'form-control form-control-lg ms-5'}}) }}
+</div>
+<div class="col-6 pt-2">
+        <label for="createdAt">Date du voyage</label>
+		{{ form_widget(form.createdAt, {'attr':{'class':'ms-5'}}) }}
+</div>
+          
+<div class="col-6 pt-3 ms-5">  
     <button class="btn">{{ button_label|default('Save') }}</button>
+</div>   
 {{ form_end(form) }}

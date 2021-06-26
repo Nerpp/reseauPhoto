@@ -1,0 +1,67 @@
+{# {% extends 'base.html.twig' %}
+
+{% block title %}Photo{% endblock %}
+
+{% block body %}
+    <h1>Photo</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ photo.id }}</td>
+            </tr>
+            <tr>
+                <th>Source</th>
+                <td>{{ photo.source }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ photo.description }}</td>
+            </tr>
+        </tbody>
+    </table> #}
+
+    {# <a href="{{ path('trip_show') }}">back to list</a> #}
+
+    {# <a href="{{ path('photo_edit', {'id': photo.id}) }}">edit</a>
+
+    {{ include('photo/_delete_form.html.twig') }}
+{% endblock %} #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Hello PhotoController!
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<div class="col-12 d-flex flex-row justify-content-center p-5">
+			<h1>{{ photo.trip.name }}</h1>
+		</div>
+	</div>
+
+    <div class="container">
+		<div class="col-3">
+			<a href="{{ path('trip_show', {'id': photo.trip.id }) }}" class="btn btn-primary">Back</a>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="d-flex flex-column align-items-center">
+			<div class="col-8">
+				<img src="{{ asset("/img/trip/"~photo.source) }}" class="particularPhoto" alt="...">
+			</div>
+            <div class="col-5 d-flex justify-content-center">
+                <p>
+                    {{ photo.description}}
+                </p>
+            </div>
+		</div>
+	</div>
+
+     <a href="{{ path('photo_edit', {'id': photo.id}) }}">edit</a>
+
+    {{ include('photo/_delete_form.html.twig') }}
+{% endblock %}

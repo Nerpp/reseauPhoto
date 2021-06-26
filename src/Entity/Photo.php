@@ -36,6 +36,11 @@ class Photo
      */
     private $trip;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $featured = false;
+
    
 
     public function __construct()
@@ -81,6 +86,18 @@ class Photo
     public function setTrip(?Trip $trip): self
     {
         $this->trip = $trip;
+
+        return $this;
+    }
+
+    public function getFeatured(): ?bool
+    {
+        return $this->featured;
+    }
+
+    public function setFeatured(bool $featured): self
+    {
+        $this->featured = $featured;
 
         return $this;
     }

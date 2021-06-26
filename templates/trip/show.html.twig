@@ -51,7 +51,7 @@
 		<div class="d-flex flex-row flex-wrap justify-content-around p-5">
 			{% for trips in trip.photo %}
 				<div class="col-3 mx-3">
-					<a href="{{ path('app_photo_show', {'id': trips.id}) }}">
+					<a href="{{ path('photo_show', {'id': trips.id}) }}">
 						<img src="{{ asset("/img/trip/"~trips.source) }}" class="photoSize" alt="...">
 					</a>
 					<p>
@@ -60,7 +60,7 @@
 			{% endfor %}
 		</div>
 	</div>
- <a href="{{ path('trip_edit', {'id': trip.id}) }}">edit</a>
+ {# <a href="{{ path('trip_edit', {'id': trip.id}) }}">edit</a> #}
 {{ include('trip/_delete_form.html.twig') }}
 {% endblock %}
 
