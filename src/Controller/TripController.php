@@ -109,4 +109,21 @@ class TripController extends AbstractController
 
         return $this->redirectToRoute('trip_index');
     }
+
+      /**
+     * @Route("/feature/{id}", name="select_feature"):
+     */
+    public function selectFeature(Trip $trip): Response
+    {
+      
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        return $this->render('trip/feature.html.twig', [
+            'trip' => $trip,
+        ]);
+    }
+
+  
 }

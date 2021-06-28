@@ -5,7 +5,8 @@
 {% block body %}
     <h1>Create new Trip</h1>
 
+<div class="container">
     {{ include('trip/_form.html.twig') }}
-
+</div>
     <a href="{{ path('trip_index') }}">back to list</a>
 {% endblock %}
