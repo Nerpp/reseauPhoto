@@ -6,6 +6,7 @@ use App\Entity\Photo;
 use App\Entity\Trip;
 use App\Entity\User;
 use App\Form\TripType;
+use App\Repository\PhotoRepository;
 use App\Repository\TripRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -151,10 +152,18 @@ class TripController extends AbstractController
     /**
      * @Route("/{id}", name="trip_delete", methods={"POST"})
      */
-    public function delete(Request $request, Trip $trip): Response
+    public function delete(Request $request, Trip $trip,PhotoRepository $photoRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $trip->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
+            $check = $photoRepository->findBy(['trip' => $trip->getId()]);
+           
+            if ($check) {
+                foreach ($check as $checks) {
+                    unlink($this->getParameter('images_directory') . '/' . $checks->getSource());
+                }
+            }
+
             $entityManager->remove($trip);
             $entityManager->flush();
         }
