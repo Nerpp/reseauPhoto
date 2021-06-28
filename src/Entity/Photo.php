@@ -31,7 +31,7 @@ class Photo
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Trip::class, inversedBy="photo")
+     * @ORM\ManyToOne(targetEntity=Trip::class, inversedBy="photo",cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $trip;

@@ -23,6 +23,11 @@ class TripType extends AbstractType
                 //since symfony 5
                 'html5' => false,
             ])
+            ->add('image', FileType::class, [
+                'mapped' => false,
+                'multiple' => true,
+                'required' => false,
+            ])
             ->add('description')
             // ->add('user')
             
