@@ -41,7 +41,7 @@
 				{% for users in user.trip %}
 					<div class="card col-3 mx-3">
 						{% if users.photo is empty %}
-							<a href="{{ path('trip_edit', {'id': users.id }) }}">Ajouter des photos</a>
+							<a href="{{ path('photo_new', {'id': users.id }) }}">Ajouter des photos</a>
 						{% else %}
 						<a href="{{ path('trip_show', {'id': users.id }) }}">
 							{% set break = false %}
