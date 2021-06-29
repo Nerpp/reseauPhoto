@@ -5,46 +5,64 @@
 	{{ form_widget(form.name, {'attr':{'class':'form-control form-control-lg ms-5'}}) }}
 </div>
 
-<div class="d-flex flex-row">
-	<div class="col-4 pt-2 ms-5">
+<div class="d-flex flex-column pt-2">
+	<div class="col-2">
+		<p>Photo de présentation</p>
+	</div>
+	<div class="d-flex flex-row">
 		{% if trip.photo is empty %}
-			<p>ajouter une photo</p>
+			<div class="col-6">
+				<p>Ajouter une ou plusieurs photo(s)</p>
+			</div>
 		{% else %}
-			{% set break = false %}
-			{% for photos in trip.photo %}
-				{% if photos.featured  %}
-					<img src="{{ asset("/img/trip/"~photos.source) }}" class="tripCard" alt="...">
-					{% set break = true %}
-				{% endif %}
-			{% endfor %}
+			
+				{% set break = false %}
+				{% for photos in trip.photo %}
+					{% if photos.featured  %}
+					<div class="col-4 ms-5">
+						<img src="{{ asset("/img/trip/"~photos.source) }}" class="tripCard" alt="...">
+					</div>
+						{% set break = true %}
+					{% endif %}
+				{% endfor %}
+			
 			{% if not break %}
-				<img src="{{ asset("/img/trip/"~trip.photo[0].source) }}" class="tripCard" alt="...">
+				<div class="col-4 ms-5">
+					<img src="{{ asset("/img/trip/"~trip.photo[0].source) }}" class="tripCard" alt="...">
+				</div>
 			{% endif %}
-		</div>
-		<div class="col-2 d-flex justify-content-center align-items-center">
-			<p>
-				<a href="{{ path('select_feature', {'id': trip.id }) }}">Change</a>
-			</p>
 
+			<div class="col-2 d-flex justify-content-center align-items-center">
+				<p>
+					<a href="{{ path('select_feature', {'id': trip.id }) }}">Select</a>
+				</p>
+			</div>
 		{% endif %}
 	</div>
 </div>
 
-<div class="col-5">
-{{ form_widget(form.image, {'attr':{'class':'form-control form-control-lg ms-5'}}) }}
+<div class="col-6 p-2">
+	<label for="image">Ajouter des photos</label>
+</div>
+<div class="col-6">
+	{{ form_widget(form.image, {'attr':{'class':'form-control form-control-lg ms-5'}}) }}
 </div>
 
 
-<div class="col-6 pt-2">
+<div class="col-6 p-2">
 	<label for="description">Description du voyage</label>
+</div>
+<div class="col-6">
 	{{ form_widget(form.description, {'attr':{'class':'form-control form-control-lg ms-5'}}) }}
 </div>
-<div class="col-6 pt-2">
+<div class="col-6 p-2">
 	<label for="createdAt">Date du voyage</label>
+</div>
+<div class="col-6">
 	{{ form_widget(form.createdAt, {'attr':{'class':'ms-5'}}) }}
 </div>
 
-<div class="col-6 pt-3 ms-5">
+<div class="col-6 p-3 ms-5">
 	<button class="btn">{{ button_label|default('Save') }}</button>
 </div>
 {{ form_end(form) }}

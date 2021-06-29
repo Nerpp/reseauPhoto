@@ -3,10 +3,22 @@
 {% block title %}New Trip{% endblock %}
 
 {% block body %}
-    <h1>Create new Trip</h1>
+
+<div class="container pt-5">
+<div class="d-flex flex-column align-items-center">
+	<div class="">
+		<h1>Créer un nouveau Voyage</h1>
+	</div>
+    <div class="col-6 d-flex justify-content-end">
+         <a href="{{ path('trip_index') }}">Annuler</a>
+    </div>
+</div>
+</div>
+
+   
 
 <div class="container">
     {{ include('trip/_form.html.twig') }}
 </div>
-    <a href="{{ path('trip_index') }}">back to list</a>
+   
 {% endblock %}

@@ -67,7 +67,8 @@ class PhotoController extends AbstractController
      */
     public function featuredPhoto(Photo $photo, PhotoRepository $photoRepository)
     {
-     $check = $photoRepository->findBy(['featured' => 1]);
+        
+     $check = $photoRepository->findBy(['featured' => 1,'trip' => $photo->getTrip()]);
 
      if ($check) {
 
