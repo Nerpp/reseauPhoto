@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20210625134250 extends AbstractMigration
+final class Version20210630073652 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,8 +20,7 @@ final class Version20210625134250 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE TABLE profile (id INT AUTO_INCREMENT NOT NULL, source VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('ALTER TABLE user ADD profile_id INT NOT NULL');
+        $this->addSql('ALTER TABLE user ADD profile_id INT NOT NULL, ADD folder VARCHAR(255) NOT NULL');
         $this->addSql('ALTER TABLE user ADD CONSTRAINT FK_8D93D649CCFA12B8 FOREIGN KEY (profile_id) REFERENCES profile (id)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649CCFA12B8 ON user (profile_id)');
     }
@@ -30,8 +29,7 @@ final class Version20210625134250 extends AbstractMigration
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE user DROP FOREIGN KEY FK_8D93D649CCFA12B8');
-        $this->addSql('DROP TABLE profile');
         $this->addSql('DROP INDEX UNIQ_8D93D649CCFA12B8 ON user');
-        $this->addSql('ALTER TABLE user DROP profile_id');
+        $this->addSql('ALTER TABLE user DROP profile_id, DROP folder');
     }
 }

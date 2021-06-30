@@ -10,6 +10,7 @@ use App\Entity\Photo;
 use App\Entity\Profile;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 
@@ -29,15 +30,24 @@ class AppFixtures extends Fixture
                 'name' => 'Dark',
                 'surname' =>'Vador',
                 'email'    => 'darkvador@gmail.com',
-                'profile' => 'vProfile.jpg'
+                'profile' => 'tn_vProfile.jpg'
             ],
             [
                 'surname' => 'Des batignolles',
                 'name' => 'Marie-thérése',
                 'email'    => 'batignolles@gmail.com',
-                'profile' => 'mtherese.jpg'
+                'profile' => 'tn_mtherese.jpg'
             ],
           
+        ];
+
+        $listFolder = [
+            [
+                'folder' => '/trip/'
+            ],
+            [
+                'folder' => '/profile/'
+            ]
         ];
 
         $listTrip = [
@@ -109,38 +119,78 @@ class AppFixtures extends Fixture
 
         foreach($listUser as $userListed)
         {
+           
+
+            $filesystem = new Filesystem();
+            $userFolder = $userListed['name'].md5(uniqid());
+            $where = "C:\wamp64\www/reseauPhoto/public/img/";
+           
+            if (!$filesystem->exists($where.$userFolder)){
+                $filesystem->mkdir($where.$userFolder, 0777);
+            }
+            $userFolderAll[] = $userFolder;
+
+            foreach ($listFolder as $folderListed) {
+                $folderType = $userFolder.$folderListed['folder'];
+                if (!$filesystem->exists($where.$folderType)){
+                    $filesystem->mkdir($where.$folderType, 0777);
+                }
+                $folderTypeAll[] =  $folderType;
+            }
+
             $profile = new Profile;
-            $profile->setSource($userListed['profile']);
+            $profile->setSource($folderTypeAll[1].$userListed['profile']);
             $manager->persist($profile);
 
             $user = new User;
             $user->setEmail($userListed['email']);
             $user->setName($userListed['name']);
             $user->setSurname($userListed['surname']);
+           
             $user->setPassword($this->encoder->hashPassword($user,"123456"));
             $user->setCreatedAt(new \DateTime('now'));
             $user->setProfile($profile);
+
+            for ($i=0; $i < count($userFolderAll) ; $i++) { 
+                $user->setFolder($userFolderAll[$i]);
+            }
+
+
             $manager->persist($user);
             $allUser[] = $user;
+
+
 
         }
         $manager->flush();
 
 
         foreach ($listTrip as $tripListed) {
+
+            $filesystem = new Filesystem();
+
+            $tripFolder = $folderTypeAll[0].md5(uniqid());
+ 
             $trip = new Trip;
             $trip->setName($tripListed['trip']);
             $trip->setDescription($tripListed['description']);
             $trip->setUser($allUser[0]);
+            $trip->setFolder($tripFolder);
             $manager->persist($trip);
             $allTrip[] = $trip;
+
+            if (!$filesystem->exists($where.$tripFolder)){
+                $filesystem->mkdir($where.$tripFolder, 0777);
+            }
+            $tripFolderAll[] = $tripFolder;
+
         }
         $manager->flush();
-
-      
+        
         foreach ($listTatooine as $listedTatooin) {
             $photo = new Photo;
-            $photo->setSource($listedTatooin['photo']);
+            $photo->setSource($tripFolderAll[1].'/'.$listedTatooin['photo']);
+            
             $photo->setDescription($listedTatooin['description']);
             $photo->setTrip($allTrip[0]);
             $manager->persist($photo);
@@ -148,7 +198,7 @@ class AppFixtures extends Fixture
 
         foreach ($listAlderande as $alderandeListed) {
             $photo = new Photo;
-            $photo->setSource($alderandeListed['photo']);
+            $photo->setSource($tripFolderAll[0].'/'.$alderandeListed['photo']);
             $photo->setDescription($alderandeListed['description']);
             $photo->setTrip($allTrip[1]);
             $manager->persist($photo);

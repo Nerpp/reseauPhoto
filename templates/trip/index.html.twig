@@ -9,13 +9,14 @@
 	<div class="container">
 		<div class="col-12 d-flex flex-row justify-content-start p-3">
 			<p>
-				<img src="{{ asset("/img/profile/"~user.profile.source) }}" class="rounded-circle sizeProfile" alt="...">
+				<img src="{{ asset("/img/"~user.profile.source) }}" class="rounded-circle sizeProfile" alt="...">
 				Bienvenue
 				{{ user.name}}
 				{{ user.surname }}
 			</p>
 		</div>
 	</div>
+
 
 	<div class="container">
 		<div class="col-4 p-3">
@@ -52,10 +53,11 @@
 								{% endif %}
 							{% endfor %}
 							{% if not break %}
-								<img src="{{ asset("/img/trip/"~users.photo[0].source) }}" class="tripCard" alt="...">
+								<img src="{{ asset("/img/"~users.photo[0].source) }}" class="tripCard" alt="...">
 							{% endif %}
 							</a>
 						{% endif %}
+						
 
 						<div class="card-body">
 							<h5 class="card-title">{{ users.name }}

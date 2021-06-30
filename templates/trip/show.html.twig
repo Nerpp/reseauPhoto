@@ -20,7 +20,7 @@
 			{% for trips in trip.photo %}
 				<div class="col-3 mx-3">
 					<a href="{{ path('photo_show', {'id': trips.id}) }}">
-						<img src="{{ asset("/img/trip/"~trips.source) }}" class="photoSize" alt="...">
+						<img src="{{ asset('/img/'~trips.source) }}" class="tripCard" alt="...">
 					</a>
 					<p>
 						{{ trips.description }}</p>

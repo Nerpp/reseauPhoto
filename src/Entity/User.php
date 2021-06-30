@@ -63,6 +63,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $profile;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $folder;
+
     public function __construct()
     {
         $this->trip = new ArrayCollection();
@@ -236,6 +241,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setProfile(Profile $profile): self
     {
         $this->profile = $profile;
+
+        return $this;
+    }
+
+    public function getFolder(): ?string
+    {
+        return $this->folder;
+    }
+
+    public function setFolder(string $folder): self
+    {
+        $this->folder = $folder;
 
         return $this;
     }
