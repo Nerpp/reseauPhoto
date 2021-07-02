@@ -55,15 +55,16 @@ class TripController extends AbstractController
 
         $user = $this->getUser();
 
+
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             //'image' dans les add de l'entity
             $files = $form->get('image')->getData();
-
-            $unicFolder = 'trip/trip'.md5(uniqid());
+            
+            $unicFolder = $user->getFolder().'/trip/'.md5(uniqid().'/');
+           
             $where = $this->getParameter('images_directory').$unicFolder;
             
-
             $services = new InsertFiles;
             $services->CreateFolder($where);
 
@@ -81,7 +82,7 @@ class TripController extends AbstractController
                 }
                 
                 $photo = new Photo;
-                $photo->setSource('/img/'.$unicFolder.'/'.$filename);
+                $photo->setSource($unicFolder.'/'.$filename);
                 $trip->addPhoto($photo);
                 $entityManager->persist($photo);
             }
@@ -114,6 +115,7 @@ class TripController extends AbstractController
         ]);
     }
 
+    //Todo corriger la direction du path des Photos
     /**
      * @Route("/{id}/edit", name="trip_edit", methods={"GET","POST"})
      */

@@ -48,7 +48,7 @@
 							{% set break = false %}
 							{% for photos in users.photo %}
 								{% if photos.featured  %}
-									<img src="{{ asset("/img/trip/"~photos.source) }}" class="tripCard" alt="...">
+									<img src="{{ asset("/img/"~photos.source) }}" class="tripCard" alt="...">
 									{% set break = true %}
 								{% endif %}
 							{% endfor %}
