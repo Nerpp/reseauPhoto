@@ -53,16 +53,14 @@ class TripController extends AbstractController
         $form = $this->createForm(TripType::class, $trip);
         $form->handleRequest($request);
 
-        $user = $this->getUser();
-
-
+    
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $user = $this->getUser();
             //'image' dans les add de l'entity
             $files = $form->get('image')->getData();
             
             $unicFolder = $user->getFolder().'/trip/'.md5(uniqid().'/');
-           
             $where = $this->getParameter('images_directory').$unicFolder;
             
             $services = new InsertFiles;
@@ -124,30 +122,28 @@ class TripController extends AbstractController
         $form = $this->createForm(TripType::class, $trip);
         $form->handleRequest($request);
 
-
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+          
+           //'image' dans les add de l'entity
+           $files = $form->get('image')->getData();
+           $folder = $trip->getFolder();
+           $where =  $this->getParameter('images_directory').$folder;
 
-
-            //'image' dans les add de l'entity
-            $files = $form->get('image')->getData();
-
-
-            foreach ($files as $image) {
-
-                $filename =  md5(uniqid()) . "." . $image->guessExtension();
-                if ($image) {
-                    try {
-                        $image->move(
-                            $this->getParameter('images_directory'),
-                            $filename
-                        );
-                    } catch (FileException $e) {
-                        // ... handle exception if something happens during file upload
-                    }
-                }
+           foreach ($files as $image) {
+               $filename =  md5(uniqid()) . "." . $image->guessExtension();
+               if ($image) {
+                   try {
+                       $image->move(
+                        $where,
+                           $filename
+                       );
+                   } catch (FileException $e) {
+                       // ... handle exception if something happens during file upload
+                   }
+               }
                 $photo = new Photo;
-                $photo->setSource($filename);
+                $photo->setSource($folder.'/'.$filename);
                 $trip->addPhoto($photo);
                 $entityManager->persist($photo);
             }
@@ -166,18 +162,13 @@ class TripController extends AbstractController
     /**
      * @Route("/{id}", name="trip_delete", methods={"POST"})
      */
-    public function delete(Request $request, Trip $trip,PhotoRepository $photoRepository): Response
+    public function delete(Request $request, Trip $trip): Response
     {
         if ($this->isCsrfTokenValid('delete' . $trip->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
-            $check = $photoRepository->findBy(['trip' => $trip->getId()]);
-
-            if ($check) {
-                foreach ($check as $checks) {
+            
                     $filesystem = new Filesystem();
                     $filesystem->remove([$this->getParameter('images_directory'). $trip->getFolder()]);
-                }
-            }
 
             $entityManager->remove($trip);
             $entityManager->flush();

@@ -39,7 +39,7 @@
 			</div>
 		{% else %}
 			<div class="d-flex flex-row flex-wrap justify-content-start">
-				{% for users in user.trip %}
+				{% for users in user.trip |reverse(true) %}
 					<div class="card col-3 mx-3">
 						{% if users.photo is empty %}
 							<a href="{{ path('trip_new', {'id': users.id }) }}">Ajouter des photos</a>
