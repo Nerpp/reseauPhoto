@@ -20,7 +20,7 @@
 				{% for photos in trip.photo %}
 					{% if photos.featured  %}
 					<div class="col-4 ms-5">
-						<img src="{{ asset("/img/trip/"~photos.source) }}" class="tripCard" alt="...">
+						<img src="{{ asset("/img/"~photos.source) }}" class="tripCard" alt="...">
 					</div>
 						{% set break = true %}
 					{% endif %}
@@ -28,7 +28,7 @@
 			
 			{% if not break %}
 				<div class="col-4 ms-5">
-					<img src="{{ asset("/img/trip/"~trip.photo[0].source) }}" class="tripCard" alt="...">
+					<img src="{{ asset("/img/"~trip.photo[0].source) }}" class="tripCard" alt="...">
 				</div>
 			{% endif %}
 

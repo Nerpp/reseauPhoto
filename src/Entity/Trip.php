@@ -49,6 +49,11 @@ class Trip
      */
     private $photo;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $folder;
+
   
 
     public function __construct()
@@ -138,6 +143,18 @@ class Trip
                 $photo->setTrip(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFolder(): ?string
+    {
+        return $this->folder;
+    }
+
+    public function setFolder(string $folder): self
+    {
+        $this->folder = $folder;
 
         return $this;
     }
