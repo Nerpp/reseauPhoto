@@ -27,16 +27,28 @@ class AppFixtures extends Fixture
     {
         $listUser = [
             [
+                'name' => 'Regi',
+                'surname' =>'Aurélien',
+                'displayName' => 'Aurélien',
+                'email'    => 'regiaurelien@gmail.com',
+                'profile' => 'null',
+                'role' => ['SUPER_ADMIN']
+            ],
+            [
                 'name' => 'Dark',
                 'surname' =>'Vador',
+                'displayName' => 'Dark Vador',
                 'email'    => 'darkvador@gmail.com',
-                'profile' => 'null'
+                'profile' => 'null',
+                'role' => ['USER']
             ],
             [
                 'surname' => 'Des batignolles',
                 'name' => 'Marie-thérése',
+                'displayName' => 'Marie-thérése Des batignolles',
                 'email'    => 'batignolles@gmail.com',
-                'profile' => 'tn_mtherese.jpg'
+                'profile' => 'tn_mtherese.jpg',
+                'role' => ['USER']
             ],
           
         ];
@@ -146,7 +158,8 @@ class AppFixtures extends Fixture
             $user->setEmail($userListed['email']);
             $user->setName($userListed['name']);
             $user->setSurname($userListed['surname']);
-           
+            $user->setDisplayName($userListed['displayName']);
+            $user->setRoles($userListed['role']);
             $user->setPassword($this->encoder->hashPassword($user,"123456"));
             $user->setCreatedAt(new \DateTime('now'));
             $user->setProfile($profile);

@@ -70,8 +70,6 @@ class TripController extends AbstractController
             foreach ($files as $image) {
                 $filename =  md5(uniqid()) . "." . $image->guessExtension();
 
-               
-
                 if ($image) {
 
                     try {
