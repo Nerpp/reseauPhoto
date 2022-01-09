@@ -4,19 +4,18 @@
 	Folder photo select
 {% endblock %}
 
-
-{% block body %}
-
+{% block header %}
 <div class="container">
 <h3> Choisissez la photo de présentation en cliquant dessus</h3>
 </div>
-
 	<div class="container">
 		<div class="col-3">
 			<p> <a href="{{ path('trip_edit', {'id': trip.id}) }}">Retour</a></p>
 		</div>
 	</div>
+{% endblock %}
 
+{% block section %}
 	<div class="container">
 		<div class="d-flex flex-row flex-wrap justify-content-start p-5">
 			{% for trips in trip.photo %}

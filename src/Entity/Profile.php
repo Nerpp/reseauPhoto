@@ -27,6 +27,11 @@ class Profile
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $profile;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -57,6 +62,18 @@ class Profile
         }
 
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getProfile(): ?bool
+    {
+        return $this->profile;
+    }
+
+    public function setProfile(?bool $profile): self
+    {
+        $this->profile = $profile;
 
         return $this;
     }

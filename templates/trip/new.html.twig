@@ -2,8 +2,8 @@
 
 {% block title %}New Trip{% endblock %}
 
-{% block body %}
 
+{% block header %}
 <div class="container pt-5">
 <div class="d-flex flex-column align-items-center">
 	<div class="">
@@ -14,8 +14,9 @@
     </div>
 </div>
 </div>
+{% endblock %}
 
-   
+{% block section %}
 
 <div class="container">
     {{ include('trip/_form.html.twig') }}

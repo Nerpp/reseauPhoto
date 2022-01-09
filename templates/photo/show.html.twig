@@ -35,7 +35,7 @@
 	Hello PhotoController!
 {% endblock %}
 
-{% block body %}
+{% block header %}
 	<div class="container">
 		<div class="col-12 d-flex flex-row justify-content-center p-5">
 			<h1>{{ photo.trip.name }}</h1>
@@ -47,6 +47,10 @@
 			<a href="{{ path('trip_show', {'id': photo.trip.id }) }}" class="btn btn-primary">Back</a>
 		</div>
 	</div>
+{% endblock %}
+
+
+{% block section %}
 
 	<div class="container">
 		<div class="d-flex flex-column align-items-center">

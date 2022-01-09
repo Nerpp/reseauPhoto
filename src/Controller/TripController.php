@@ -10,7 +10,7 @@ use App\Services\InsertFiles;
 use App\Repository\TripRepository;
 
 use App\Repository\PhotoRepository;
-
+use App\Services\ImageOptimizer;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -66,23 +66,36 @@ class TripController extends AbstractController
             $services = new InsertFiles;
             $services->CreateFolder($where);
 
+        
             foreach ($files as $image) {
                 $filename =  md5(uniqid()) . "." . $image->guessExtension();
+
+               
+
                 if ($image) {
+
                     try {
+                        
                         $image->move(
                             $where,
                             $filename
                         );
+                         
+                        // $resizeImg = new ImageOptimizer;
+                        // $resizeImg->resize('img'.'/'.$unicFolder.'/'.$filename);
+   
                     } catch (FileException $e) {
                         // ... handle exception if something happens during file upload
                     }
+                    
                 }
                 
                 $photo = new Photo;
                 $photo->setSource($unicFolder.'/'.$filename);
                 $trip->addPhoto($photo);
                 $entityManager->persist($photo);
+
+                
             }
 
             $trip->setUser($user);
@@ -113,7 +126,6 @@ class TripController extends AbstractController
         ]);
     }
 
-    //Todo corriger la direction du path des Photos
     /**
      * @Route("/{id}/edit", name="trip_edit", methods={"GET","POST"})
      */

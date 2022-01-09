@@ -2,8 +2,7 @@
 
 {% block title %}Edit Trip{% endblock %}
 
-{% block body %}
-
+{% block header %}
 <div class="container">
 	<div class="col-12 d-flex flex-row justify-content-center p-5">
 		<h1>Edition </h1>
@@ -16,8 +15,9 @@
         {{ include('trip/_delete_form.html.twig') }}
     </div>
 </div>
+{% endblock %}
 
-
+{% block section %}
 
 <div class="container">
     

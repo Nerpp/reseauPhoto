@@ -30,7 +30,7 @@ class AppFixtures extends Fixture
                 'name' => 'Dark',
                 'surname' =>'Vador',
                 'email'    => 'darkvador@gmail.com',
-                'profile' => 'tn_vProfile.jpg'
+                'profile' => 'null'
             ],
             [
                 'surname' => 'Des batignolles',

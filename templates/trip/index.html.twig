@@ -4,24 +4,11 @@
 {% endblock %}
 
 
-{% block body %}
-
-	<div class="container">
-		<div class="col-12 d-flex flex-row justify-content-start p-3">
-			<p>
-				<img src="{{ asset("/img/"~user.profile.source) }}" class="rounded-circle sizeProfile" alt="...">
-				Bienvenue
-				{{ user.name}}
-				{{ user.surname }}
-			</p>
-		</div>
-	</div>
-
-
-	<div class="container">
+{% block header %}
+<div class="container">
 		<div class="col-4 p-3">
 			<h2>
-				Vos différent voyages
+				Vos différents partage de photo
 			</h2>
 		</div>
 		<div class="col-3 ms-5">
@@ -30,6 +17,12 @@
 			</p>
 		</div>
 	</div>
+{% endblock %}
+
+{% block section %}
+
+	
+	
 
 
 	<div class="container">

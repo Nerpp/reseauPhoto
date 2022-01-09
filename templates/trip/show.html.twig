@@ -4,8 +4,7 @@
 	{{ trip.name }}
 {% endblock %}
 
-{% block body %}
-
+{% block header %}
 <div class="container">
 <h1>{{ trip.name}}</h1>
 <div class="col-12">
@@ -19,7 +18,15 @@
         <div class="col-3">
 			<a href="{{ path('trip_edit', {'id': trip.id}) }}">Ajouter des photos</a>
 		</div>
+		<div class="">
+			{{ include('trip/_delete_form.html.twig') }}
+		</div>
 	</div>
+{% endblock %}
+
+{% block section %}
+
+
 
 	<div class="container">
 		<div class="d-flex flex-row flex-wrap justify-content-around p-5">
@@ -35,6 +42,6 @@
 		</div>
 	</div>
  {# <a href="{{ path('trip_edit', {'id': trip.id}) }}">edit</a> #}
-{{ include('trip/_delete_form.html.twig') }}
+
 {% endblock %}
 
