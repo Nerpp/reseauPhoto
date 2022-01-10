@@ -32,7 +32,7 @@ class AppFixtures extends Fixture
                 'displayName' => 'Aurélien',
                 'email'    => 'regiaurelien@gmail.com',
                 'profile' => 'null',
-                'role' => ['SUPER_ADMIN']
+                'role' => array('ROLE_SUPERADMIN','ROLE_ADMIN')
             ],
             [
                 'name' => 'Dark',

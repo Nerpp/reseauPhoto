@@ -11,11 +11,13 @@
 {% endblock %}
 
 {% block section %}
-
-<pre>
-    {{ dump(app.user.roles) }}
-</pre>
-    
+{% if is_granted('ROLE_ADMIN') %}
+    Administrator
+{% elseif is_granted('ROLE_USER') %}
+    User
+{% else %}
+    Anonymous
+{% endif %}    
     <div class="container">
         <div class="">
         image de profil :
