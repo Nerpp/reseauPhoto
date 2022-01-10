@@ -26,12 +26,13 @@
 				</div>
 
 			{% endif %}
-
-			<div class="col-2 d-flex justify-content-center align-items-center">
-				<p>
-					<a href="{{ path('select_feature', {'id': trip.id }) }}">Select</a>
-				</p>
-			</div>
+			{% if trip.featuredImage is null %}
+				<div class="col-2 d-flex justify-content-center align-items-center">
+					<p>
+						<a href="{{ path('select_feature', {'id': trip.id }) }}">Select</a>
+					</p>
+				</div>
+			{% endif %}
 		{% endif %}
 	</div>
 </div>

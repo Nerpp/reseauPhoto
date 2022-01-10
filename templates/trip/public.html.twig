@@ -9,7 +9,7 @@
 	<div class="container">
 		<div class="col-4 p-3">
 			<h2>
-				Les voyages disponible
+				Les voyages disponible Public
 			</h2>
 		</div>
 
@@ -23,7 +23,7 @@
 			
 			{% for trips in trip |reverse(true) %}
 				<div class="card col-3 mx-3">
-					<a href="{{ path('trip_show', {'id': trips.id }) }}">
+					<a href="{{ path('trip_show_public', {'id': trips.id }) }}">
 						{% if trips.featuredImage  %}
 							<img src="{{ asset("/img/"~trips.featuredImage.source) }}" class="tripCard" alt="...">
 						{% else %}

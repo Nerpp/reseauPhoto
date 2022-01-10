@@ -31,7 +31,7 @@ class TripController extends AbstractController
      */
     public function publicIndex(TripRepository $tripRepository): Response
     {
-        
+
         if (!$this->getUser()) {
             return $this->redirectToRoute('app_login');
         }
@@ -48,7 +48,7 @@ class TripController extends AbstractController
      */
     public function index(): Response
     {
-        
+
         if (!$this->getUser()) {
             return $this->redirectToRoute('app_login');
         }
@@ -71,47 +71,44 @@ class TripController extends AbstractController
         $form = $this->createForm(TripType::class, $trip);
         $form->handleRequest($request);
 
-    
+
         if ($form->isSubmitted() && $form->isValid()) {
+            
             $entityManager = $this->getDoctrine()->getManager();
             $user = $this->getUser();
             //'image' dans les add de l'entity
             $files = $form->get('image')->getData();
-            
-            $unicFolder = $user->getFolder().'/trip/'.md5(uniqid().'/');
-            $where = $this->getParameter('images_directory').$unicFolder;
-            
+
+            $unicFolder = $user->getFolder() . '/trip/' . md5(uniqid() . '/');
+            $where = $this->getParameter('images_directory') . $unicFolder;
+
             $services = new InsertFiles;
             $services->CreateFolder($where);
 
-        
             foreach ($files as $image) {
                 $filename =  md5(uniqid()) . "." . $image->guessExtension();
 
                 if ($image) {
 
                     try {
-                        
+
                         $image->move(
                             $where,
                             $filename
                         );
-                         
+
                         // $resizeImg = new ImageOptimizer;
                         // $resizeImg->resize('img'.'/'.$unicFolder.'/'.$filename);
-   
+
                     } catch (FileException $e) {
                         // ... handle exception if something happens during file upload
                     }
-                    
                 }
-                
+
                 $photo = new Photo;
-                $photo->setSource($unicFolder.'/'.$filename);
+                $photo->setSource($unicFolder . '/' . $filename);
                 $trip->addPhoto($photo);
                 $entityManager->persist($photo);
-
-                
             }
 
             $trip->setUser($user);
@@ -142,6 +139,20 @@ class TripController extends AbstractController
         ]);
     }
 
+     /**
+     * @Route("/{id}/public", name="trip_show_public", methods={"GET"})
+     */
+    public function showPublic(Trip $trip): Response
+    {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        return $this->render('trip/publicShow.html.twig', [
+            'trip' => $trip,
+        ]);
+    }
+
     /**
      * @Route("/{id}/edit", name="trip_edit", methods={"GET","POST"})
      */
@@ -152,26 +163,26 @@ class TripController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-          
-           //'image' dans les add de l'entity
-           $files = $form->get('image')->getData();
-           $folder = $trip->getFolder();
-           $where =  $this->getParameter('images_directory').$folder;
 
-           foreach ($files as $image) {
-               $filename =  md5(uniqid()) . "." . $image->guessExtension();
-               if ($image) {
-                   try {
-                       $image->move(
-                        $where,
-                           $filename
-                       );
-                   } catch (FileException $e) {
-                       // ... handle exception if something happens during file upload
-                   }
-               }
+            //'image' dans les add de l'entity
+            $files = $form->get('image')->getData();
+            $folder = $trip->getFolder();
+            $where =  $this->getParameter('images_directory') . $folder;
+
+            foreach ($files as $image) {
+                $filename =  md5(uniqid()) . "." . $image->guessExtension();
+                if ($image) {
+                    try {
+                        $image->move(
+                            $where,
+                            $filename
+                        );
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                    }
+                }
                 $photo = new Photo;
-                $photo->setSource($folder.'/'.$filename);
+                $photo->setSource($folder . '/' . $filename);
                 $trip->addPhoto($photo);
                 $entityManager->persist($photo);
             }
@@ -194,9 +205,9 @@ class TripController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete' . $trip->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
-            
-                    $filesystem = new Filesystem();
-                    $filesystem->remove([$this->getParameter('images_directory'). $trip->getFolder()]);
+
+            $filesystem = new Filesystem();
+            $filesystem->remove([$this->getParameter('images_directory') . $trip->getFolder()]);
 
             $entityManager->remove($trip);
             $entityManager->flush();
@@ -220,26 +231,24 @@ class TripController extends AbstractController
         ]);
     }
 
-     /**
+    /**
      * @Route("/{id}/feature", name="photo_featured", methods={"GET","POST"})
      */
-    public function featuredPhoto(Photo $photo,EntityManagerInterface $entityManager)
+    public function featuredPhoto(Photo $photo, EntityManagerInterface $entityManager)
     {
-        
-     $trip = $photo->getTrip();
 
-     if ($trip->getFeaturedImage()) {
-         $entityManager->remove($trip->getFeaturedImage());
-         $entityManager->flush();
-     }
-    // dd($trip->getFeaturedImage());
+        $trip = $photo->getTrip();
+
+        if ($trip->getFeaturedImage()) {
+            return $this->redirectToRoute('trip_edit', ['id' => $trip->getId()]);
+        }
+
         $featuredImage = new FeaturedImage;
         $featuredImage->setSource($photo->getSource());
         $featuredImage->setTrip($trip);
-     
+
         $entityManager->persist($featuredImage);
         $entityManager->flush();
-        return $this->redirectToRoute('trip_edit',['id' => $trip->getId()]);
+        return $this->redirectToRoute('trip_edit', ['id' => $trip->getId()]);
     }
-
 }

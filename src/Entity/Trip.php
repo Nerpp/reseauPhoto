@@ -58,6 +58,8 @@ class Trip
      * @ORM\OneToOne(targetEntity=FeaturedImage::class, mappedBy="trip", cascade={"persist", "remove"})
      */
     private $featuredImage;
+
+   
  
     public function __construct()
     {
@@ -183,4 +185,5 @@ class Trip
         return $this;
     }
 
+    
 }

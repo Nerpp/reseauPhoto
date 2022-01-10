@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ trip.name }}
+{% endblock %}
+
+{% block header %}
+<div class="container">
+<h1>{{ trip.name}} Public</h1>
+<div class="col-12">
+</div>
+</div>
+
+	<div class="container">
+		<div class="col-3">
+			<a href="{{ path('trip_public_index') }}" class="btn btn-primary">Back</a>
+		</div>
+        {# <div class="col-3">
+			<a href="{{ path('trip_edit', {'id': trip.id}) }}">Ajouter des photos</a>
+		</div>
+		<div class="">
+			{{ include('trip/_delete_form.html.twig') }}
+		</div> #}
+	</div>
+{% endblock %}
+
+{% block section %}
+
+	<div class="container">
+		<div class="d-flex flex-row flex-wrap justify-content-around p-5">
+			{% for trips in trip.photo %}
+				<div class="col-3 mx-3">
+					<a href="{{ path('photo_show', {'id': trips.id}) }}">
+						<img src="{{ asset('/img/'~trips.source) }}" class="tripCard" alt="...">
+					</a>
+					<p>
+						{{ trips.description }}</p>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+ {# <a href="{{ path('trip_edit', {'id': trip.id}) }}">edit</a> #}
+
+{% endblock %}
+
