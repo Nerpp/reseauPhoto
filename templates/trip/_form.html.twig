@@ -15,21 +15,16 @@
 				<p>Ajouter une ou plusieurs photo(s)</p>
 			</div>
 		{% else %}
-			
-				{% set break = false %}
-				{% for photos in trip.photo %}
-					{% if photos.featured  %}
-					<div class="col-4 ms-5">
-						<img src="{{ asset("/img/"~photos.source) }}" class="tripCard" alt="...">
-					</div>
-						{% set break = true %}
-					{% endif %}
-				{% endfor %}
-			
-			{% if not break %}
+
+			{% if trip.featuredImage is null %}
 				<div class="col-4 ms-5">
 					<img src="{{ asset("/img/"~trip.photo[0].source) }}" class="tripCard" alt="...">
 				</div>
+			{% else %}
+				<div class="col-4 ms-5">
+					<img src="{{ asset("/img/"~trip.featuredImage.source) }}" class="tripCard" alt="...">
+				</div>
+
 			{% endif %}
 
 			<div class="col-2 d-flex justify-content-center align-items-center">

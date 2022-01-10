@@ -58,12 +58,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $surname;
 
     /**
-     * @ORM\OneToOne(targetEntity=Profile::class, inversedBy="user", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $profile;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $folder;
@@ -72,6 +66,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=45)
      */
     private $displayName;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $imgProfile;
 
     public function __construct()
     {
@@ -238,18 +237,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getProfile(): ?Profile
-    {
-        return $this->profile;
-    }
-
-    public function setProfile(Profile $profile): self
-    {
-        $this->profile = $profile;
-
-        return $this;
-    }
-
+    
     public function getFolder(): ?string
     {
         return $this->folder;
@@ -270,6 +258,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setDisplayName(string $displayName): self
     {
         $this->displayName = $displayName;
+
+        return $this;
+    }
+
+    public function getImgProfile(): ?string
+    {
+        return $this->imgProfile;
+    }
+
+    public function setImgProfile(?string $imgProfile): self
+    {
+        $this->imgProfile = $imgProfile;
 
         return $this;
     }

@@ -150,9 +150,9 @@ class AppFixtures extends Fixture
                 $folderTypeAll[] =  $folderType;
             }
 
-            $profile = new Profile;
-            $profile->setSource($folderTypeAll[1].$userListed['profile']);
-            $manager->persist($profile);
+            // $profile = new Profile;
+            // $profile->setSource($folderTypeAll[1].$userListed['profile']);
+            // $manager->persist($profile);
 
             $user = new User;
             $user->setEmail($userListed['email']);
@@ -162,7 +162,7 @@ class AppFixtures extends Fixture
             $user->setRoles($userListed['role']);
             $user->setPassword($this->encoder->hashPassword($user,"123456"));
             $user->setCreatedAt(new \DateTime('now'));
-            $user->setProfile($profile);
+           
 
             for ($i=0; $i < count($userFolderAll) ; $i++) { 
                 $user->setFolder($userFolderAll[$i]);

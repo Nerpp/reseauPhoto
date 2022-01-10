@@ -6,11 +6,13 @@ use App\Entity\Trip;
 use App\Entity\User;
 use App\Entity\Photo;
 use App\Form\TripType;
+use App\Entity\FeaturedImage;
 use App\Services\InsertFiles;
-use App\Repository\TripRepository;
-
-use App\Repository\PhotoRepository;
 use App\Services\ImageOptimizer;
+
+use App\Repository\TripRepository;
+use App\Repository\PhotoRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +26,22 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 class TripController extends AbstractController
 {
 
+    /**
+     * @Route("/public", name="trip_public_index")
+     */
+    public function publicIndex(TripRepository $tripRepository): Response
+    {
+        
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        return $this->render('trip/public.html.twig', [
+            'controller_name' => 'IndexController',
+            'trip' => $tripRepository->findAll()
+
+        ]);
+    }
 
     /**
      * @Route("/home", name="trip_index")
@@ -201,4 +219,27 @@ class TripController extends AbstractController
             'trip' => $trip,
         ]);
     }
+
+     /**
+     * @Route("/{id}/feature", name="photo_featured", methods={"GET","POST"})
+     */
+    public function featuredPhoto(Photo $photo,EntityManagerInterface $entityManager)
+    {
+        
+     $trip = $photo->getTrip();
+
+     if ($trip->getFeaturedImage()) {
+         $entityManager->remove($trip->getFeaturedImage());
+         $entityManager->flush();
+     }
+    // dd($trip->getFeaturedImage());
+        $featuredImage = new FeaturedImage;
+        $featuredImage->setSource($photo->getSource());
+        $featuredImage->setTrip($trip);
+     
+        $entityManager->persist($featuredImage);
+        $entityManager->flush();
+        return $this->redirectToRoute('trip_edit',['id' => $trip->getId()]);
+    }
+
 }

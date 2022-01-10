@@ -66,31 +66,5 @@ class PhotoController extends AbstractController
         return $this->redirectToRoute('trip_show',['id' => $trip->getId()]);
     }
 
-    /**
-     * @Route("/{id}/feature", name="photo_featured", methods={"GET","POST"})
-     */
-    public function featuredPhoto(Photo $photo, PhotoRepository $photoRepository)
-    {
-        
-     $check = $photoRepository->findBy(['featured' => 1,'trip' => $photo->getTrip()]);
-
-     if ($check) {
-
-        foreach ($check as $checks) {
-            $checks->setFeatured(false);
-        }
-        
-     }
-
-     $photo->setFeatured(true);
-
-    $entityManager = $this->getDoctrine()->getManager();
-    $entityManager->persist($photo);
-    $entityManager->flush();
-
-    $trip = $photo->getTrip();
-
-    return $this->redirectToRoute('trip_edit',['id' => $trip->getId()]);
-
-    }
+   
 }

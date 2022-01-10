@@ -36,13 +36,6 @@ class Photo
      */
     private $trip;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $featured = false;
-
-   
-
     public function __construct()
     {
         $this->trips = new ArrayCollection();
@@ -90,17 +83,4 @@ class Photo
         return $this;
     }
 
-    public function getFeatured(): ?bool
-    {
-        return $this->featured;
-    }
-
-    public function setFeatured(bool $featured): self
-    {
-        $this->featured = $featured;
-
-        return $this;
-    }
-
-   
 }

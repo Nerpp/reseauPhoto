@@ -54,15 +54,17 @@ class Trip
      */
     private $folder;
 
-  
-
+    /**
+     * @ORM\OneToOne(targetEntity=FeaturedImage::class, mappedBy="trip", cascade={"persist", "remove"})
+     */
+    private $featuredImage;
+ 
     public function __construct()
     {
         $this->createdAt = new \DateTime('now');
         $this->photo = new ArrayCollection();
+        $this->featuredImages = new ArrayCollection();
     }
-
-    
 
     public function getId(): ?int
     {
@@ -159,5 +161,26 @@ class Trip
         return $this;
     }
 
-  
+    public function getFeaturedImage(): ?FeaturedImage
+    {
+        return $this->featuredImage;
+    }
+
+    public function setFeaturedImage(?FeaturedImage $featuredImage): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($featuredImage === null && $this->featuredImage !== null) {
+            $this->featuredImage->setTrip(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($featuredImage !== null && $featuredImage->getTrip() !== $this) {
+            $featuredImage->setTrip($this);
+        }
+
+        $this->featuredImage = $featuredImage;
+
+        return $this;
+    }
+
 }

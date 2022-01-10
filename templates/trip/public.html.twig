@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Public index
+{% endblock %}
+
+
+{% block header %}
+	<div class="container">
+		<div class="col-4 p-3">
+			<h2>
+				Les voyages disponible
+			</h2>
+		</div>
+
+	</div>
+{% endblock %}
+
+{% block section %}
+
+	<div class="container">
+		<div class="d-flex flex-row flex-wrap justify-content-start">
+			
+			{% for trips in trip |reverse(true) %}
+				<div class="card col-3 mx-3">
+					<a href="{{ path('trip_show', {'id': trips.id }) }}">
+						{% if trips.featuredImage  %}
+							<img src="{{ asset("/img/"~trips.featuredImage.source) }}" class="tripCard" alt="...">
+						{% else %}
+							<img src="{{ asset("/img/"~trips.photo[0].source) }}" class="tripCard" alt="...">
+						{% endif %}
+					</a>
+
+
+					<div class="card-body">
+						<h5 class="card-title">{{ trips.name }}</h5>
+						<p class="card-text">{{ trips.description}}</p>
+						<p>
+							crée le
+							{{ trips.createdAt|date("d/m/Y", "Europe/Paris") }}
+						</p>
+						<p>
+							{{ trips.photo|length }}
+
+							{% if trips.photo|length == 1 %}
+								Photo disponible
+							{% else %}
+								Photos disponible
+							{% endif %}
+
+						</p>
+						<p>
+							Créateur
+							{{ (trips.user.displayName) }}
+						</p>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+
+		{# <div class="">
+								{% for users in user |reverse(true) %}
+									<div class="card col-3 mx-3">
+										
+										<a href="{{ path('trip_show', {'id': users.id }) }}">
+											{% set break = false %}
+											{% for photos in users.photo %}
+												{% if photos.featured  %}
+													<img src="{{ asset("/img/"~photos.source) }}" class="tripCard" alt="...">
+													{% set break = true %}
+												{% endif %}
+											{% endfor %}
+											{% if not break %}
+												<img src="{{ asset("/img/"~users.photo[0].source) }}" class="tripCard" alt="...">
+											{% endif %}
+											</a>
+										
+										
+				
+										<div class="card-body">
+											<h5 class="card-title">{{ users.name }}</h5>
+											<p class="card-text">{{ users.description}}</p>
+											<p>
+												crée le {{ users.createdAt|date("d/m/Y", "Europe/Paris") }}
+											</p>
+										</div>
+									</div>
+								{% endfor %}
+							<div>
+						{% endif %} #}
+		<div>
+
+		{% endblock %}

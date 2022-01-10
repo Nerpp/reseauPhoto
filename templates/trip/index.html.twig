@@ -5,7 +5,7 @@
 
 
 {% block header %}
-<div class="container">
+	<div class="container">
 		<div class="col-4 p-3">
 			<h2>
 				Vos différents partage de photo
@@ -21,51 +21,44 @@
 
 {% block section %}
 
-	
-	
-
-
 	<div class="container">
 		{% if user.trip is empty %}
 			<div class="col-12 d-flex justify-content-center">
 				<p>Créer un voyage</p>
 			</div>
 		{% else %}
+			
 			<div class="d-flex flex-row flex-wrap justify-content-start">
 				{% for users in user.trip |reverse(true) %}
+			
 					<div class="card col-3 mx-3">
 						{% if users.photo is empty %}
 							<a href="{{ path('trip_new', {'id': users.id }) }}">Ajouter des photos</a>
 						{% else %}
-						<a href="{{ path('trip_show', {'id': users.id }) }}">
-							{% set break = false %}
-							{% for photos in users.photo %}
-								{% if photos.featured  %}
-									<img src="{{ asset("/img/"~photos.source) }}" class="tripCard" alt="...">
-									{% set break = true %}
-								{% endif %}
-							{% endfor %}
-							{% if not break %}
-								<img src="{{ asset("/img/"~users.photo[0].source) }}" class="tripCard" alt="...">
-							{% endif %}
+							<a href="{{ path('trip_show', {'id': users.id }) }}">
+								{% if users.featuredImage is null  %}
+									<img src="{{ asset("/img/"~users.photo[0].source) }}" class="tripCard" alt="...">
+								{% else %}
+								<img src="{{ asset("/img/"~users.featuredImage.source) }}" class="tripCard" alt="...">
+								{% endif %}	
 							</a>
 						{% endif %}
-						
+					
 
-						<div class="card-body">
-							<h5 class="card-title">{{ users.name }}
-								le
-								{{ users.createdAt|date("d/m/Y", "Europe/Paris") }}</h5>
-							<p class="card-text">{{ users.description}}</p>
-							<p>
-								<a href="{{ path('trip_edit', {'id': users.id}) }}">edit</a>
-							</p>
-						</div>
+
+					<div class="card-body">
+						<h5 class="card-title">{{ users.name }}
+							le
+							{{ users.createdAt|date("d/m/Y", "Europe/Paris") }}</h5>
+						<p class="card-text">{{ users.description}}</p>
+						<p>
+							<a href="{{ path('trip_edit', {'id': users.id}) }}">edit</a>
+						</p>
 					</div>
-				{% endfor %}
+				</div>
+			{% endfor %}
 			<div>
-		{% endif %}
-	<div>
+			{% endif %}
+			<div>
 
-{% endblock %}
-
+			{% endblock %}

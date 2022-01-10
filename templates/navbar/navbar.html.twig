@@ -9,17 +9,20 @@
 				<li class="nav-item">
 					<a class="nav-link active" aria-current="page" href="{{ path('home') }}">Accueil</a>
 				</li>
+				<li class="nav-item">
+					<a class="nav-link active" aria-current="page" href="{{ path('trip_public_index') }}">Voyage</a>
+				</li>
 				{% if app.user %}
 					<li class="nav-item">
 						<a class="nav-link" href="{{ path('trip_index') }}">Administration Photo</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="{{ path('profile_index') }}">Administration Profil</a>
+						<a class="nav-link" href="{{ path('trip_index') }}">Administration Profil</a>
 					</li>
 				{% endif %}
         {% if is_granted('ROLE_SUPERADMIN') %}
 				<li class="nav-item">
-					<a class="nav-link" href="#">Administration</a>
+					<a class="nav-link" href="{{ path('user_index') }}">Administration</a>
 				</li>
         {% endif %}
 				<li class="nav-item">
@@ -28,10 +31,10 @@
 			</ul>
 			{% if app.user %}
 				<p>
-					{% if app.user.profile.profile == null  %}
+					{% if app.user.imgProfile == null  %}
 						<img src="{{ asset("/img/default/default.png") }}" class="rounded-circle sizeProfile" alt="...">
 					{% else %}
-						<img src="{{ asset("/img/"~app.user.profile.source) }}" class="rounded-circle sizeProfile" alt="...">
+						<img src="{{ asset("/img/"~app.user.imgProfile) }}" class="rounded-circle sizeProfile" alt="...">
 					{% endif %}
 
 					Bienvenue

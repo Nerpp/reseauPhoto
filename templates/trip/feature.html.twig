@@ -18,7 +18,9 @@
 {% block section %}
 	<div class="container">
 		<div class="d-flex flex-row flex-wrap justify-content-start p-5">
+		
 			{% for trips in trip.photo %}
+			
 				<div class="col-3  p-3">
 					<a href="{{ path('photo_featured', {'id': trips.id}) }}">
 						<img src="{{ asset("/img/"~trips.source) }}" class="photoSize" alt="...">
