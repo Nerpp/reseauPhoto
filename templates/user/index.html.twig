@@ -6,17 +6,18 @@
     <h1>User index</h1>
 
 <div class="container">
+<div class="row">
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
+               
                 <th>Email</th>
                 <th>Roles</th>
                 <th>Password</th>
                 <th>Name</th>
                 <th>CreatedAt</th>
                 <th>Surname</th>
-                <th>Folder</th>
+              
                 <th>DisplayName</th>
                 <th>ImgProfile</th>
                 <th>actions</th>
@@ -25,14 +26,14 @@
         <tbody>
         {% for user in users %}
             <tr>
-                <td>{{ user.id }}</td>
+                
                 <td>{{ user.email }}</td>
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
                 <td>{{ user.password }}</td>
                 <td>{{ user.name }}</td>
                 <td>{{ user.createdAt ? user.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ user.surname }}</td>
-                <td>{{ user.folder }}</td>
+               
                 <td>{{ user.displayName }}</td>
                 <td>{{ user.imgProfile }}</td>
                 <td>
@@ -47,6 +48,7 @@
         {% endfor %}
         </tbody>
     </table>
+    </div>
 </div>
     <a href="{{ path('user_new') }}">Create new</a>
 {% endblock %}

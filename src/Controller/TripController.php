@@ -32,9 +32,9 @@ class TripController extends AbstractController
     public function publicIndex(TripRepository $tripRepository): Response
     {
 
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
+        // if (!$this->getUser()) {
+        //     return $this->redirectToRoute('app_login');
+        // }
 
         return $this->render('trip/public.html.twig', [
             'controller_name' => 'IndexController',
@@ -144,9 +144,9 @@ class TripController extends AbstractController
      */
     public function showPublic(Trip $trip): Response
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
+        // if (!$this->getUser()) {
+        //     return $this->redirectToRoute('app_login');
+        // }
 
         return $this->render('trip/publicShow.html.twig', [
             'trip' => $trip,
